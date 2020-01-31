@@ -104,8 +104,19 @@ public class AdjacencyMatrix{
 		}
 	}
 
-	public void depthFirst(){
+	public void depthFirst(int vertex){
 		Stack<Integer> stack = new Stack<Integer>();
+	    boolean [] isVisited = new boolean[graph.length];
+
+		stack.add(vertex);
+
+		while (!stack.isEmpty()){
+			int element = stack.pop();
+			if(!element.visited){
+				System.out.print(element.data + " ");
+				element.visited=true;
+			}
+		}		
 	}
 
 	public void breadthFirst(){
