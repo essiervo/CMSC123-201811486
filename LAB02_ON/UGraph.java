@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class UGraph{
 	public static void main(String [] args){
 		Scanner scan = new Scanner(System.in);
-		int choice, v, v1, v2;
+		int choice, choice2, v, v1, v2;
 
 		System.out.print("Enter number of vertices: ");
 		v = scan.nextInt();
@@ -59,9 +59,9 @@ public class UGraph{
 					do{
 						System.out.print("\n1. Insert an edge \n2. Remove an edge \n3. Insert a vertex \n4. Remove a vertex \n5. Back");
 						System.out.print("\n\nEnter choice: ");
-						choice = scan.nextInt();
+						choice2 = scan.nextInt();
 			
-						switch(choice){
+						switch(choice2){
 							case 1:
 								adjMatrix.insertingEdge();
 								break;
@@ -75,11 +75,11 @@ public class UGraph{
 								break;
 
 							case 4:
-								System.out.print("Enter vertext you want to remove: ");
+								System.out.print("Enter vertex you want to remove: ");
 								adjMatrix.removeVertex(scan.nextInt());
 								break;
 						}
-					}while(choice != 5);
+					}while(choice2 != 5);
 					break;
 
 				case 3:

@@ -2,12 +2,17 @@ import java.util.*;
 
 public class AdjacencyMatrix{
 	Scanner scan = new Scanner(System.in);
-	int vertex, v1, v2, n;
-	int [][] graph;
+	int vertex, v1, v2, n, j = 0;
+	int [][] graph, temp;
+	Boolean element;
 
 	public AdjacencyMatrix(int vertex){
 		this.graph = new int[vertex][vertex];
 		this.vertex = vertex;
+	}
+
+	public int [][] getGraph(){
+		return graph;
 	}
 
 	public int getNumberOfVertices(){
@@ -16,15 +21,54 @@ public class AdjacencyMatrix{
 
 	public int getNumberOfEdges(){
 		int num = 0;
-		for(int i=0; i<graph.length; i++){
-			for(int j = 0; j<graph[i].length; j++){
-				if(graph[i][j]==1 && graph[j][i]==1){
-					num++;
-				}
+		for(int i=1; i<graph.length; i++){
+			if(graph[i-1][i]==1){
+				num++;
 			}
 		}
 		return num;
 	}
+
+	public void vertexAdjacent(int vertex){
+		if(vertex >= graph.length || vertex < 0){
+			System.out.println("Vertex not present!");
+			return;
+		}
+
+		System.out.print("Vertices adjacent to a given vertex: ");
+		for(int i=0; i<graph.length; i++){
+			if(graph[vertex][i] == 1 && graph[i][vertex] == 1){
+				System.out.print(i + " ");
+				j++;
+			}
+		}
+		
+		if(j==0){
+			System.out.println("NONE");
+			return;
+		}
+
+		System.out.print("\n");
+	}
+
+	public void twoAdjVertex(int vertex1, int vertex2){
+		if(vertex1 >= graph.length || vertex1 < 0 || vertex2 >= graph.length || vertex2 < 0){
+			System.out.println("Vertex not present!");
+			return;
+		}
+
+		if(graph[vertex1][vertex2] == 1 && graph[vertex2][vertex1] == 1)
+			System.out.print("The two vertices are adjacent!\n");
+		else
+			System.out.print("The two vertices are NOT adjacent!\n");	
+	}
+
+		/*public void twoConnectedVertices(int vertex1, int vertex2, int num){
+		if(graph[vertex1][num] != 1){
+			twoConVertex(vertex1, num++, )
+		}
+	}*/
+
 
 	public void insertingEdge(){
 		n = graph.length;
@@ -69,30 +113,6 @@ public class AdjacencyMatrix{
 		graph[v2][v1] = 0;
 	}
 
-	public void vertexAdjacent(int vertex){
-		System.out.print("Vertices adjacent to a given vertex: ");
-		for(int i=0; i<graph.length; i++){
-			if(graph[vertex][i] == 1 && graph[i][vertex] == 1){
-				System.out.print(vertex + " ");
-			}
-		}
-		System.out.print("\n");
-	}
-
-	public void twoAdjVertex(int vertex1, int vertex2){
-		if(graph[vertex1][vertex2] == 1 && graph[vertex2][vertex1] == 1)
-			System.out.print("The two vertices are adjacent!\n");
-		else
-			System.out.print("The two vertices are NOT adjacent!\n");	
-	}
-
-	/*public void twoConVertex(int vertex1, int vertex2, int num){
-		if(graph[vertex1][num] != 1){
-			twoConVertex(vertex1, num++, )
-		}
-	}*/
-
-
 	public void showGraph(){
 		System.out.print("UGraph \n");
 		for(int i=0; i<graph.length; i++){
@@ -104,20 +124,22 @@ public class AdjacencyMatrix{
 		}
 	}
 
-	public void depthFirst(int vertex){
+	/*public void depthFirst(int vertex){
 		Stack<Integer> stack = new Stack<Integer>();
 	    boolean [] isVisited = new boolean[graph.length];
+		stack.push(vertex);
 
-		stack.add(vertex);
-
-		while (!stack.isEmpty()){
-			int element = stack.pop();
+		while (stack.empty() == false){
+			int x = stack.pop();
 			if(!element.visited){
 				System.out.print(element.data + " ");
 				element.visited=true;
 			}
+
+			//List<Integer> adjacent = element.get
 		}		
-	}
+	}*/
+
 
 	public void breadthFirst(){
 		Queue<Integer> queue = new LinkedList<Integer>();
@@ -125,34 +147,59 @@ public class AdjacencyMatrix{
 
 	public void insertVertex(){
 		n = graph.length;
-		this.graph = new int[n++][n++];
-        n++; 
+		n++;
+		this.graph = new int[n][n];
+        
         for(int i=0; i<n; i++){ 
-            graph[i][n] = 0; 
-            graph[n][i] = 0; 
+            graph[i][n-1] = 0; 
+            graph[n-1][i] = 0; 
         } 
     } 
   
-    public void removeVertex(int vertex){ 
-        n = graph.length;
-        if (vertex > n){ 
+    public void removeVertex(int vertex){
+    	n = graph.length;
+    	if(vertex>n){ 
             System.out.println("Vertex not present!"); 
             return; 
-        } 
-
-        else { 
-            while(vertex<n) 
-            { 
-                for(int i=0; i<n; ++i){ 
-                    graph[i][vertex] = graph[i][vertex+1]; 
-                } 
-  
-                for (int i = 0; i<n; ++i){ 
-                    graph[vertex][i] = graph[vertex+1][i]; 
-                } 
-                vertex++; 
-            } 
-            n--; 
         }
+        
+        //temp = new int[n][n];
+      
+        while(vertex<n){
+            // shifting the rows to left side 
+            for(int i=0; i<n; i++){
+            	if(vertex+1<n){
+               		graph[i][vertex] = graph[i][vertex+1]; 
+               	}  
+            } 
+  				
+  			// shifting the columns upwards
+            for(int i=0; i<n ; i++){ 
+            	if(vertex+1<n){
+                	graph[vertex][i] = graph[vertex+1][i];
+           	 	}
+            }
+            vertex++;
+        }
+
+        temp = new int[n-1][n-1];
+
+        for(int i=0; i< temp.length ; i++){
+        	for(int j=0; j< temp[i].length ; j++){
+        		temp[i][j] = graph[i][j];
+        	}
+        }
+
+        this.graph = new int[n-1][n-1];
+        this.graph = temp;
     }
 }
+
+/*
+ for(int i=0; i<graph.length; i++){
+			System.out.print("[ ");
+			for(int j = 0; j<graph[i].length; j++){
+				System.out.print(graph[i][j] + " ");
+			}
+			System.out.print("]\n");
+		}*/
