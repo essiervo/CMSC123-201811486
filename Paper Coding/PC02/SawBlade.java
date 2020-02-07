@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class SawBlade{
 
 	Scanner scan = new Scanner(System.in);
-	int a, b, c, d, num;
+	int a, b, c, d, number;
 
 	public static void main(String [] args){
 		new SawBlade();
@@ -11,8 +11,8 @@ public class SawBlade{
 
 	public SawBlade(){
 		System.out.print("Enter a number: ");
-		num = scan.nextInt();
-		SawBlade(num);
+		number = scan.nextInt();
+		SawBlade(number);
 	}
 
 	public void SawBlade(int k){
